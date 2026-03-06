@@ -1,268 +1,113 @@
-﻿@{
-    ViewBag.Title = "Department Page";
-}
-
-<div class="container-fluid">
-    <!-- Page Header -->
-    <div class="row mb-4">
-        <div class="col-12 d-flex justify-content-between align-items-center">
-            <h2><i class="fas fa-sitemap"></i> Department Page</h2>
-            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addDepartmentModal">
-                <i class="fas fa-plus"></i> New Department
-            </button>
-        </div>
-    </div>
-
-    <!-- Department Cards -->
-    <div class="row">
-        <!-- IT Department -->
-        <div class="col-lg-4 col-md-6 mb-4">
-            <div class="card shadow h-100">
-                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-                    <h6 class="m-0 font-weight-bold">IT Department</h6>
-                    <span class="badge bg-light text-dark">12 employees</span>
-                </div>
-                <div class="card-body">
-                    <!-- Assigned Employees -->
-                    <div class="mb-3">
-                        <strong>Employee Name:</strong>
-                        <ul class="list-unstyled mt-2">
-                            <li class="mb-2">
-                                <i class="fas fa-user text-primary me-2"></i>John Doe
-                                <button class="btn btn-sm btn-link text-danger float-end" onclick="showAssignModal('IT', 'John Doe')">
-                                    <i class="fas fa-exchange-alt"></i> Assign
-                                </button>
-                            </li>
-                            <li class="mb-2">
-                                <i class="fas fa-user text-primary me-2"></i>Jane Smith
-                                <button class="btn btn-sm btn-link text-danger float-end" onclick="showAssignModal('IT', 'Jane Smith')">
-                                    <i class="fas fa-exchange-alt"></i> Assign
-                                </button>
-                            </li>
-                            <li class="mb-2">
-                                <i class="fas fa-user text-primary me-2"></i>Mike Johnson
-                                <button class="btn btn-sm btn-link text-danger float-end" onclick="showAssignModal('IT', 'Mike Johnson')">
-                                    <i class="fas fa-exchange-alt"></i> Assign
-                                </button>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <!-- Department Actions -->
-                    <div class="d-flex gap-2 mt-3">
-                        <button class="btn btn-sm btn-info flex-fill" onclick="showAssignModal('IT', '')">
-                            <i class="fas fa-user-plus"></i> Assign
-                        </button>
-                        <button class="btn btn-sm btn-warning flex-fill">
-                            <i class="fas fa-edit"></i> Edit
-                        </button>
-                        <button class="btn btn-sm btn-danger flex-fill">
-                            <i class="fas fa-trash"></i> Delete
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- HR Department -->
-        <div class="col-lg-4 col-md-6 mb-4">
-            <div class="card shadow h-100">
-                <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
-                    <h6 class="m-0 font-weight-bold">HR Department</h6>
-                    <span class="badge bg-light text-dark">8 employees</span>
-                </div>
-                <div class="card-body">
-                    <!-- Assigned Employees -->
-                    <div class="mb-3">
-                        <strong>Employee Name:</strong>
-                        <ul class="list-unstyled mt-2">
-                            <li class="mb-2">
-                                <i class="fas fa-user text-success me-2"></i>Sarah Wilson
-                                <button class="btn btn-sm btn-link text-danger float-end" onclick="showAssignModal('HR', 'Sarah Wilson')">
-                                    <i class="fas fa-exchange-alt"></i> Assign
-                                </button>
-                            </li>
-                            <li class="mb-2">
-                                <i class="fas fa-user text-success me-2"></i>Tom Brown
-                                <button class="btn btn-sm btn-link text-danger float-end" onclick="showAssignModal('HR', 'Tom Brown')">
-                                    <i class="fas fa-exchange-alt"></i> Assign
-                                </button>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <!-- Department Actions -->
-                    <div class="d-flex gap-2 mt-3">
-                        <button class="btn btn-sm btn-info flex-fill" onclick="showAssignModal('HR', '')">
-                            <i class="fas fa-user-plus"></i> Assign
-                        </button>
-                        <button class="btn btn-sm btn-warning flex-fill">
-                            <i class="fas fa-edit"></i> Edit
-                        </button>
-                        <button class="btn btn-sm btn-danger flex-fill">
-                            <i class="fas fa-trash"></i> Delete
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Finance Department -->
-        <div class="col-lg-4 col-md-6 mb-4">
-            <div class="card shadow h-100">
-                <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
-                    <h6 class="m-0 font-weight-bold">Finance Department</h6>
-                    <span class="badge bg-light text-dark">10 employees</span>
-                </div>
-                <div class="card-body">
-                    <!-- Assigned Employees -->
-                    <div class="mb-3">
-                        <strong>Employee Name:</strong>
-                        <ul class="list-unstyled mt-2">
-                            <li class="mb-2">
-                                <i class="fas fa-user text-info me-2"></i>Mike Johnson
-                                <button class="btn btn-sm btn-link text-danger float-end" onclick="showAssignModal('Finance', 'Mike Johnson')">
-                                    <i class="fas fa-exchange-alt"></i> Assign
-                                </button>
-                            </li>
-                            <li class="mb-2">
-                                <i class="fas fa-user text-info me-2"></i>Lisa Davis
-                                <button class="btn btn-sm btn-link text-danger float-end" onclick="showAssignModal('Finance', 'Lisa Davis')">
-                                    <i class="fas fa-exchange-alt"></i> Assign
-                                </button>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <!-- Department Actions -->
-                    <div class="d-flex gap-2 mt-3">
-                        <button class="btn btn-sm btn-info flex-fill" onclick="showAssignModal('Finance', '')">
-                            <i class="fas fa-user-plus"></i> Assign
-                        </button>
-                        <button class="btn btn-sm btn-warning flex-fill">
-                            <i class="fas fa-edit"></i> Edit
-                        </button>
-                        <button class="btn btn-sm btn-danger flex-fill">
-                            <i class="fas fa-trash"></i> Delete
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Add Department Modal (as shown in your PPT) -->
-<div class="modal fade" id="addDepartmentModal" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header bg-primary text-white">
-                <h5 class="modal-title">
-                    <i class="fas fa-plus-circle me-2"></i>Add Department
-                </h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <form id="addDepartmentForm">
-                    <div class="mb-3">
-                        <label for="deptName" class="form-label">New Department name</label>
-                        <input type="text" class="form-control" id="deptName" placeholder="Enter department name" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Department Head</label>
-                        <select class="form-select">
-                            <option>Select employee</option>
-                            <option>John Doe</option>
-                            <option>Sarah Wilson</option>
-                            <option>Mike Johnson</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Location</label>
-                        <input type="text" class="form-control" placeholder="Floor/Room">
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary" onclick="saveDepartment()">
-                    <i class="fas fa-check me-2"></i>OK
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Assign Employee Modal (as shown in your PPT) -->
-<div class="modal fade" id="assignEmployeeModal" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header bg-info text-white">
-                <h5 class="modal-title">
-                    <i class="fas fa-user-plus me-2"></i>Assign Employee
-                </h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <form id="assignForm">
-                    <div class="mb-3">
-                        <label class="form-label">Department</label>
-                        <input type="text" class="form-control" id="modalDepartment" readonly>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Employee Name</label>
-                        <select class="form-select" id="employeeSelect">
-                            <option>John Doe</option>
-                            <option>Jane Smith</option>
-                            <option>Mike Johnson</option>
-                            <option>Sarah Wilson</option>
-                            <option>Tom Brown</option>
-                            <option>Lisa Davis</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Position</label>
-                        <input type="text" class="form-control" placeholder="e.g., Developer, Manager">
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-info text-white" onclick="assignEmployee()">
-                    <i class="fas fa-check me-2"></i>Assign
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
-@section scripts {
+﻿@section scripts {
+    <script src="~/Scripts/api-service.js"></script>
     <script>
-        function showAssignModal(department, employee) {
-            $('#modalDepartment').val(department);
-            if (employee) {
-                $('#employeeSelect').val(employee);
+        let departments = [];
+        let employees = [];
+
+        $(document).ready(function () {
+            loadData();
+        });
+
+        // Load data from API instead of localStorage
+        async function loadData() {
+            try {
+                // Show loading indicator
+                $('.spinner-overlay').show();
+
+                // Fetch data from API
+                departments = await ApiService.getDepartments() || [];
+                employees = await ApiService.getEmployees() || [];
+
+                renderDepartments();
+                updateDepartmentDropdowns();
+            } catch (error) {
+                alert('Failed to load data. Please try again.');
+                console.error(error);
+            } finally {
+                $('.spinner-overlay').hide();
             }
-            $('#assignEmployeeModal').modal('show');
         }
 
-        function saveDepartment() {
-            var deptName = $('#deptName').val();
-            if (deptName) {
-                alert('Department "' + deptName + '" added successfully!');
-                $('#addDepartmentModal').modal('hide');
-                $('#addDepartmentForm')[0].reset();
-                // In real app, refresh department list
-            } else {
+        // Save new employee to API
+        async function saveEmployee() {
+            const empName = $('#empName').val().trim();
+            const empDept = $('#empDepartment').val();
+            const empPosition = $('#empPosition').val().trim();
+
+            if (!empName || !empDept) {
+                alert('Please fill in all required fields');
+                return;
+            }
+
+            const newEmp = {
+                name: empName,
+                department: empDept,
+                position: empPosition || 'Staff',
+                status: 'Present'
+            };
+
+            try {
+                const result = await ApiService.addEmployee(newEmp);
+
+                if (result) {
+                    alert('Employee added successfully!');
+                    $('#addEmployeeModal').modal('hide');
+                    $('#addEmployeeForm')[0].reset();
+
+                    // Reload data to show new employee
+                    await loadData();
+                }
+            } catch (error) {
+                alert('Failed to add employee. Please try again.');
+            }
+        }
+
+        // Delete employee via API
+        async function deleteEmployee(empId) {
+            if (!confirm('Are you sure you want to delete this employee?')) return;
+
+            try {
+                const result = await ApiService.deleteEmployee(empId);
+
+                if (result) {
+                    alert('Employee deleted successfully!');
+                    await loadData(); // Reload data
+                }
+            } catch (error) {
+                alert('Failed to delete employee. Please try again.');
+            }
+        }
+
+        // Save new department to API
+        async function saveDepartment() {
+            const deptName = $('#deptName').val().trim();
+            const deptColor = $('#deptColor').val();
+
+            if (!deptName) {
                 alert('Please enter department name');
+                return;
+            }
+
+            const newDept = {
+                name: deptName,
+                color: deptColor
+            };
+
+            try {
+                const result = await ApiService.addDepartment(newDept);
+
+                if (result) {
+                    alert('Department added successfully!');
+                    $('#addDepartmentModal').modal('hide');
+                    $('#addDepartmentForm')[0].reset();
+                    await loadData(); // Reload data
+                }
+            } catch (error) {
+                alert('Failed to add department. Please try again.');
             }
         }
 
-        function assignEmployee() {
-            var dept = $('#modalDepartment').val();
-            var employee = $('#employeeSelect').val();
-            alert('Employee "' + employee + '" assigned to ' + dept + ' department!');
-            $('#assignEmployeeModal').modal('hide');
-        }
+            // Rest of your functions (renderDepartments, etc.) remain the same
+            // but they will use the data loaded from API instead of localStorage
     </script>
 }

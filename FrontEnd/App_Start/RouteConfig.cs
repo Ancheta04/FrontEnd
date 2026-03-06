@@ -13,6 +13,14 @@ namespace FrontEnd
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            // Custom route for Attendance
+            routes.MapRoute(
+                name: "Attendance",
+                url: "Home/Attendance",
+                defaults: new { controller = "Home", action = "AttendancePage" }
+            );
+
+            // Default route
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",

@@ -7,16 +7,17 @@
     <div class="row mb-4">
         <div class="col-12">
             <h2><i class="fas fa-tachometer-alt me-2"></i>Dashboard</h2>
+            <p class="text-muted">IT Department Overview</p>
         </div>
     </div>
 
-    <!-- Quick Stats -->
+    <!-- Quick Stats for IT Department -->
     <div class="row mb-4">
         <div class="col-md-3 mb-3">
             <div class="card bg-primary text-white">
                 <div class="card-body">
-                    <h5 class="card-title">Total Employees</h5>
-                    <h2 class="mb-0">124</h2>
+                    <h5 class="card-title">IT Employees</h5>
+                    <h2 class="mb-0" id="totalITEmployees">0</h2>
                 </div>
             </div>
         </div>
@@ -24,25 +25,178 @@
             <div class="card bg-success text-white">
                 <div class="card-body">
                     <h5 class="card-title">Present Today</h5>
-                    <h2 class="mb-0">98</h2>
+                    <h2 class="mb-0" id="presentToday">0</h2>
                 </div>
             </div>
         </div>
         <div class="col-md-3 mb-3">
             <div class="card bg-info text-white">
                 <div class="card-body">
-                    <h5 class="card-title">Departments</h5>
-                    <h2 class="mb-0">8</h2>
+                    <h5 class="card-title">Absent Today</h5>
+                    <h2 class="mb-0" id="absentToday">0</h2>
                 </div>
             </div>
         </div>
         <div class="col-md-3 mb-3">
             <div class="card bg-warning text-white">
                 <div class="card-body">
-                    <h5 class="card-title">On Leave</h5>
-                    <h2 class="mb-0">12</h2>
+                    <h5 class="card-title">Late Today</h5>
+                    <h2 class="mb-0" id="lateToday">0</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- IT Department Details -->
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="fas fa-users me-2"></i>IT Department Employees</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Position</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="itEmployeesList">
+                                <!-- Filled by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-4">
+            <div class="card shadow">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0"><i class="fas fa-chart-pie me-2"></i>Today's Attendance</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="attendanceChart" height="200"></canvas>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+@section scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        $(document).ready(function() {
+            loadITDepartmentData();
+        });
+
+        function loadITDepartmentData() {
+            // Get data from localStorage
+            let employees = JSON.parse(localStorage.getItem('employees')) || [];
+            let attendanceRecords = JSON.parse(localStorage.getItem('attendanceRecords')) || [];
+            let today = new Date().toISOString().split('T')[0];
+
+            // Filter IT Department employees
+            let itEmployees = employees.filter(emp => emp.department === 'IT Department');
+
+            // Update total IT employees count
+            $('#totalITEmployees').text(itEmployees.length);
+
+            // Get today's attendance for IT employees
+            let presentCount = 0;
+            let absentCount = 0;
+            let lateCount = 0;
+
+            itEmployees.forEach(emp => {
+                let record = attendanceRecords.find(r => r.employeeId === emp.id && r.date === today);
+                if (record) {
+                    if (record.status === 'Present') presentCount++;
+                    else if (record.status === 'Absent') absentCount++;
+                    else if (record.status === 'Late') lateCount++;
+                }
+            });
+
+            // Update stats
+            $('#presentToday').text(presentCount);
+            $('#absentToday').text(absentCount);
+            $('#lateToday').text(lateCount);
+
+            // Render employees list
+            renderITEmployeesList(itEmployees, attendanceRecords, today);
+
+            // Render chart
+            renderAttendanceChart(presentCount, absentCount, lateCount);
+        }
+
+        function renderITEmployeesList(employees, attendanceRecords, today) {
+            let tbody = $('#itEmployeesList');
+            tbody.empty();
+
+            if (employees.length === 0) {
+                tbody.append('<tr><td colspan="3" class="text-center">No employees in IT Department</td></tr>');
+                return;
+            }
+
+            employees.forEach(emp => {
+                let record = attendanceRecords.find(r => r.employeeId === emp.id && r.date === today);
+                let status = record ? record.status : 'Not Marked';
+                let statusBadge = getStatusBadge(status);
+
+                let row = `
+                    <tr>
+                        <td><i class="fas fa-user-circle text-primary me-2"></i>${emp.name}</td>
+                        <td>${emp.position || 'Staff'}</td>
+                        <td>${statusBadge}</td>
+                    </tr>
+                `;
+                tbody.append(row);
+            });
+        }
+
+        function getStatusBadge(status) {
+            switch(status) {
+                case 'Present':
+                    return '<span class="badge bg-success">Present</span>';
+                case 'Absent':
+                    return '<span class="badge bg-danger">Absent</span>';
+                case 'Late':
+                    return '<span class="badge bg-warning">Late</span>';
+                default:
+                    return '<span class="badge bg-secondary">Not Marked</span>';
+            }
+        }
+
+        function renderAttendanceChart(present, absent, late) {
+            let ctx = document.getElementById('attendanceChart');
+
+            // Destroy existing chart if any
+            if (window.attendanceChart) {
+                window.attendanceChart.destroy();
+            }
+
+            window.attendanceChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Present', 'Absent', 'Late'],
+                    datasets: [{
+                        data: [present, absent, late],
+                        backgroundColor: ['#1cc88a', '#e74a3b', '#f6c23e'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+}

@@ -6,106 +6,57 @@
     <!-- Page Header -->
     <div class="row mb-4">
         <div class="col-12 d-flex justify-content-between align-items-center">
-            <h2><i class="fas fa-calendar-check"></i> Attendance Page</h2>
-            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#calendarModal">
-                <i class="fas fa-calendar-plus"></i> New Attendance
+            <h2><i class="fas fa-calendar-check me-2"></i>Attendance Page</h2>
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#attendanceModal">
+                <i class="fas fa-plus me-2"></i>Mark Attendance
             </button>
         </div>
     </div>
 
     <div class="row">
-        <!-- Calendar Section -->
-        <div class="col-lg-8 mb-4">
-            <div class="card shadow">
-                <div class="card-header bg-primary text-white">
-                    <h6 class="m-0 font-weight-bold">Calendar</h6>
-                </div>
-                <div class="card-body">
-                    <div id="calendar"></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Employee List Section -->
-        <div class="col-lg-4 mb-4">
+        <!-- Employee List with Status -->
+        <div class="col-12">
             <div class="card shadow">
                 <div class="card-header bg-success text-white">
-                    <h6 class="m-0 font-weight-bold">Employee name list</h6>
+                    <h5 class="mb-0"><i class="fas fa-list me-2"></i>Employee Attendance</h5>
                 </div>
                 <div class="card-body">
-                    <!-- Search Box -->
-                    <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="Search employee..." id="searchEmployee">
-                        <button class="btn btn-outline-secondary" type="button">
-                            <i class="fas fa-search"></i>
-                        </button>
+                    <!-- Filters -->
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <select class="form-select" id="attendanceDeptFilter">
+                                <option value="">All Departments</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <select class="form-select" id="attendanceStatusFilter">
+                                <option value="">All Status</option>
+                                <option value="Present">Present</option>
+                                <option value="Absent">Absent</option>
+                                <option value="Late">Late</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="date" class="form-control" id="attendanceDate" value="@DateTime.Now.ToString("yyyy-MM-dd")">
+                        </div>
                     </div>
 
-                    <!-- Employee List with Status -->
-                    <div class="employee-list" style="max-height: 500px; overflow-y: auto;">
-                        <!-- IT Department -->
-                        <h6 class="mt-3 mb-2 text-primary">Department: IT</h6>
-                        <div class="list-group mb-3">
-                            <div class="list-group-item d-flex justify-content-between align-items-center">
-                                <div>
-                                    <i class="fas fa-user-circle me-2"></i>
-                                    John Doe
-                                </div>
-                                <span class="badge bg-success">Present</span>
-                            </div>
-                            <div class="list-group-item d-flex justify-content-between align-items-center">
-                                <div>
-                                    <i class="fas fa-user-circle me-2"></i>
-                                    Jane Smith
-                                </div>
-                                <span class="badge bg-success">Present</span>
-                            </div>
-                            <div class="list-group-item d-flex justify-content-between align-items-center">
-                                <div>
-                                    <i class="fas fa-user-circle me-2"></i>
-                                    Mike Johnson
-                                </div>
-                                <span class="badge bg-danger">Absent</span>
-                            </div>
-                        </div>
-
-                        <!-- HR Department -->
-                        <h6 class="mt-3 mb-2 text-success">Department: HR</h6>
-                        <div class="list-group mb-3">
-                            <div class="list-group-item d-flex justify-content-between align-items-center">
-                                <div>
-                                    <i class="fas fa-user-circle me-2"></i>
-                                    Sarah Wilson
-                                </div>
-                                <span class="badge bg-warning">Late</span>
-                            </div>
-                            <div class="list-group-item d-flex justify-content-between align-items-center">
-                                <div>
-                                    <i class="fas fa-user-circle me-2"></i>
-                                    Tom Brown
-                                </div>
-                                <span class="badge bg-success">Present</span>
-                            </div>
-                        </div>
-
-                        <!-- Finance Department -->
-                        <h6 class="mt-3 mb-2 text-info">Department: Finance</h6>
-                        <div class="list-group mb-3">
-                            <div class="list-group-item d-flex justify-content-between align-items-center">
-                                <div>
-                                    <i class="fas fa-user-circle me-2"></i>
-                                    Lisa Davis
-                                </div>
-                                <span class="badge bg-success">Present</span>
-                            </div>
-                            <div class="list-group-item d-flex justify-content-between align-items-center">
-                                <div>
-                                    <i class="fas fa-user-circle me-2"></i>
-                                    Robert Wilson
-                                </div>
-                                <span class="badge bg-danger">Absent</span>
-                            </div>
-                        </div>
+                    <!-- Employee Table -->
+                    <div class="table-responsive">
+                        <table class="table table-hover" id="attendanceTable">
+                            <thead>
+                                <tr>
+                                    <th>Employee Name</th>
+                                    <th>Department</th>
+                                    <th>Position</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="attendanceTableBody">
+                                <!-- Filled by JavaScript -->
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -113,40 +64,27 @@
     </div>
 </div>
 
-<!-- Calendar Modal (as shown in your PPT) -->
-<div class="modal fade" id="calendarModal" tabindex="-1">
+<!-- Mark Attendance Modal -->
+<div class="modal fade" id="attendanceModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header bg-primary text-white">
                 <h5 class="modal-title">
-                    <i class="fas fa-calendar-alt me-2"></i>Mark Attendance
+                    <i class="fas fa-calendar-check me-2"></i>Mark Attendance
                 </h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
                 <form id="attendanceForm">
                     <div class="mb-3">
-                        <label class="form-label">Date (YY:MM:DD)</label>
-                        <input type="date" class="form-control" id="attendanceDate" value="@DateTime.Now.ToString("yyyy-MM-dd")">
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label">Department</label>
-                        <select class="form-select" id="deptSelect" onchange="loadEmployees()">
-                            <option>IT Department</option>
-                            <option>HR Department</option>
-                            <option>Finance Department</option>
-                        </select>
+                        <label class="form-label">Date</label>
+                        <input type="date" class="form-control" id="modalAttendanceDate" value="@DateTime.Now.ToString("yyyy-MM-dd")">
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">Employee</label>
-                        <select class="form-select" id="employeeSelect">
-                            <option>John Doe</option>
-                            <option>Jane Smith</option>
-                            <option>Mike Johnson</option>
-                            <option>Sarah Wilson</option>
-                            <option>Tom Brown</option>
+                        <select class="form-select" id="attendanceEmployee" required>
+                            <option value="">Select employee...</option>
                         </select>
                     </div>
 
@@ -154,16 +92,16 @@
                         <label class="form-label">Status</label>
                         <div class="d-flex gap-3">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="status" id="present" value="Present" checked>
-                                <label class="form-check-label text-success" for="present">Present</label>
+                                <input class="form-check-input" type="radio" name="attendanceStatus" id="statusPresent" value="Present" checked>
+                                <label class="form-check-label text-success" for="statusPresent">Present</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="status" id="absent" value="Absent">
-                                <label class="form-check-label text-danger" for="absent">Absent</label>
+                                <input class="form-check-input" type="radio" name="attendanceStatus" id="statusAbsent" value="Absent">
+                                <label class="form-check-label text-danger" for="statusAbsent">Absent</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="status" id="late" value="Late">
-                                <label class="form-check-label text-warning" for="late">Late</label>
+                                <input class="form-check-input" type="radio" name="attendanceStatus" id="statusLate" value="Late">
+                                <label class="form-check-label text-warning" for="statusLate">Late</label>
                             </div>
                         </div>
                     </div>
@@ -172,7 +110,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                 <button type="button" class="btn btn-primary" onclick="saveAttendance()">
-                    <i class="fas fa-check me-2"></i>OK
+                    <i class="fas fa-save me-2"></i>Save
                 </button>
             </div>
         </div>
@@ -180,93 +118,175 @@
 </div>
 
 @section scripts {
-    <!-- FullCalendar -->
-    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css' rel='stylesheet' />
-    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js'></script>
-
     <script>
-        $(document).ready(function () {
-            initializeCalendar();
+        let employees = JSON.parse(localStorage.getItem('employees')) || [];
+        let departments = JSON.parse(localStorage.getItem('departments')) || [];
+        let attendanceRecords = JSON.parse(localStorage.getItem('attendanceRecords')) || [];
 
-            // Search functionality
-            $('#searchEmployee').on('keyup', function () {
-                var searchTerm = $(this).val().toLowerCase();
-                $('.employee-list .list-group-item').each(function () {
-                    var text = $(this).text().toLowerCase();
-                    if (text.includes(searchTerm)) {
-                        $(this).show();
-                    } else {
-                        $(this).hide();
-                    }
-                });
+        $(document).ready(function () {
+            updateDepartmentFilter();
+            renderAttendanceTable();
+
+            // Filter events
+            $('#attendanceDeptFilter, #attendanceStatusFilter, #attendanceDate').change(function () {
+                renderAttendanceTable();
+            });
+
+            // Update employee dropdown when modal opens
+            $('#attendanceModal').on('show.bs.modal', function () {
+                updateEmployeeDropdown();
             });
         });
 
-        function initializeCalendar() {
-            var calendarEl = document.getElementById('calendar');
-            if (calendarEl) {
-                var calendar = new FullCalendar.Calendar(calendarEl, {
-                    initialView: 'dayGridMonth',
-                    headerToolbar: {
-                        left: 'prev,next today',
-                        center: 'title',
-                        right: 'dayGridMonth,dayGridWeek'
-                    },
-                    events: [
-                        {
-                            title: 'John Doe - Present',
-                            start: '2024-03-01',
-                            color: '#1cc88a'
-                        },
-                        {
-                            title: 'Jane Smith - Present',
-                            start: '2024-03-01',
-                            color: '#1cc88a'
-                        },
-                        {
-                            title: 'Mike Johnson - Absent',
-                            start: '2024-03-01',
-                            color: '#e74a3b'
-                        },
-                        {
-                            title: 'Sarah Wilson - Late',
-                            start: '2024-03-02',
-                            color: '#f6c23e'
-                        }
-                    ],
-                    dateClick: function (info) {
-                        $('#attendanceDate').val(info.dateStr);
-                        $('#calendarModal').modal('show');
+        function updateDepartmentFilter() {
+            let options = '<option value="">All Departments</option>';
+            departments.forEach(dept => {
+                options += `<option value="${dept.name}">${dept.name}</option>`;
+            });
+            $('#attendanceDeptFilter').html(options);
+        }
+
+        function updateEmployeeDropdown() {
+            let options = '<option value="">Select employee...</option>';
+            employees.forEach(emp => {
+                options += `<option value="${emp.id}">${emp.name} (${emp.department})</option>`;
+            });
+            $('#attendanceEmployee').html(options);
+        }
+
+        function renderAttendanceTable() {
+            const deptFilter = $('#attendanceDeptFilter').val();
+            const statusFilter = $('#attendanceStatusFilter').val();
+            const dateFilter = $('#attendanceDate').val();
+
+            let filteredEmployees = [...employees];
+
+            // Apply department filter
+            if (deptFilter) {
+                filteredEmployees = filteredEmployees.filter(emp => emp.department === deptFilter);
+            }
+
+            const tbody = $('#attendanceTableBody');
+            tbody.empty();
+
+            if (filteredEmployees.length === 0) {
+                tbody.append('<tr><td colspan="5" class="text-center">No employees found</td></tr>');
+                return;
+            }
+
+            filteredEmployees.forEach(emp => {
+                // Get attendance for this employee on selected date
+                const record = attendanceRecords.find(r => r.employeeId === emp.id && r.date === dateFilter);
+                const status = record ? record.status : 'Not Marked';
+
+                // Apply status filter
+                if (statusFilter && status !== statusFilter) {
+                    return;
+                }
+
+                const statusBadge = getStatusBadge(status);
+
+                const row = `
+                        <tr>
+                            <td><i class="fas fa-user-circle me-2"></i>${emp.name}</td>
+                            <td>${emp.department}</td>
+                            <td>${emp.position || 'Staff'}</td>
+                            <td>${statusBadge}</td>
+                            <td>
+                                ${status === 'Not Marked' ?
+                        `<button class="btn btn-sm btn-primary" onclick="markAttendance('${emp.id}')">
+                                        <i class="fas fa-check me-1"></i>Mark
+                                    </button>` :
+                        `<button class="btn btn-sm btn-warning" onclick="editAttendance('${emp.id}')">
+                                        <i class="fas fa-edit me-1"></i>Edit
+                                    </button>`
                     }
-                });
-                calendar.render();
+                            </td>
+                        </tr>
+                    `;
+                tbody.append(row);
+            });
+        }
+
+        function getStatusBadge(status) {
+            switch (status) {
+                case 'Present':
+                    return '<span class="badge bg-success">Present</span>';
+                case 'Absent':
+                    return '<span class="badge bg-danger">Absent</span>';
+                case 'Late':
+                    return '<span class="badge bg-warning">Late</span>';
+                default:
+                    return '<span class="badge bg-secondary">Not Marked</span>';
             }
         }
 
-        function loadEmployees() {
-            var dept = $('#deptSelect').val();
-            var employeeSelect = $('#employeeSelect');
-            employeeSelect.empty();
+        function markAttendance(employeeId) {
+            $('#attendanceEmployee').val(employeeId);
+            $('#attendanceModal').modal('show');
+        }
 
-            if (dept.includes('IT')) {
-                employeeSelect.append('<option>John Doe</option><option>Jane Smith</option><option>Mike Johnson</option>');
-            } else if (dept.includes('HR')) {
-                employeeSelect.append('<option>Sarah Wilson</option><option>Tom Brown</option>');
-            } else {
-                employeeSelect.append('<option>Lisa Davis</option><option>Robert Wilson</option>');
+        function editAttendance(employeeId) {
+            const date = $('#attendanceDate').val();
+            const record = attendanceRecords.find(r => r.employeeId === employeeId && r.date === date);
+
+            if (record) {
+                $('#attendanceEmployee').val(employeeId);
+                $('#modalAttendanceDate').val(date);
+
+                // Set radio button
+                $(`input[name="attendanceStatus"][value="${record.status}"]`).prop('checked', true);
+
+                $('#attendanceModal').modal('show');
+
+                // Change save button to update
+                $('.btn-primary').text('Update').attr('onclick', 'updateAttendance()');
             }
         }
 
         function saveAttendance() {
-            var date = $('#attendanceDate').val();
-            var employee = $('#employeeSelect').val();
-            var status = $('input[name="status"]:checked').val();
+            const employeeId = $('#attendanceEmployee').val();
+            const date = $('#modalAttendanceDate').val();
+            const status = $('input[name="attendanceStatus"]:checked').val();
 
-            alert('Attendance marked for ' + employee + ' on ' + date + ': ' + status);
-            $('#calendarModal').modal('hide');
+            if (!employeeId) {
+                alert('Please select an employee');
+                return;
+            }
 
-            // In real app, refresh calendar
-            location.reload();
+            // Check if record already exists
+            const existingIndex = attendanceRecords.findIndex(r => r.employeeId === employeeId && r.date === date);
+
+            const record = {
+                employeeId: employeeId,
+                date: date,
+                status: status,
+                timestamp: new Date().toISOString()
+            };
+
+            if (existingIndex >= 0) {
+                attendanceRecords[existingIndex] = record;
+            } else {
+                attendanceRecords.push(record);
+            }
+
+            localStorage.setItem('attendanceRecords', JSON.stringify(attendanceRecords));
+
+            // Reset and close modal
+            $('#attendanceForm')[0].reset();
+            $('#attendanceModal').modal('hide');
+
+            // Refresh table
+            renderAttendanceTable();
+
+            alert('Attendance saved successfully!');
+        }
+
+        function updateAttendance() {
+            // Reuse save function
+            saveAttendance();
+            // Reset button
+            $('.btn-primary').text('Save').attr('onclick', 'saveAttendance()');
         }
     </script>
 }
